@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a0f1e">
+    <meta name="description" content="Maths 2025 — مواد الترم الأول — الفرقة الأولى رياضيات">
+    <title>Maths 2025 — الترم الأول</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@600;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* ---------- MATH-THEMED PALETTE ---------- */
+            --bg:            #0a0f1e;
+            --bg-alt:        #0f1a2e;
+            --chalk:         #f5f5f0;
+            --chalk-soft:    #d8dee6;
+            --cyan:          #00d9ff;
+            --cyan-deep:     #00a3cc;
+            --gold:          #ffc857;
+            --gold-deep:     #e0a52e;
+            --violet:        #8a7dff;
+            --muted:         #93a4b8;
+
+            --radius:        14px;
+            --glow-cyan:     0 0 14px rgba(0, 217, 255, 0.55);
+            --glow-gold:     0 0 14px rgba(255, 200, 87, 0.55);
+            --glow-lg:       0 0 26px rgba(0, 217, 255, 0.95);
+        }
+
+        html {
+            height: 100%;
+            scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg);
+            background-image:
+                /* Graph-paper grid */
+                linear-gradient(rgba(0, 217, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 217, 255, 0.04) 1px, transparent 1px),
+                /* Corner glows */
+                radial-gradient(circle at 10% 5%, rgba(0, 217, 255, 0.12), transparent 45%),
+                radial-gradient(circle at 90% 95%, rgba(255, 200, 87, 0.08), transparent 45%);
+            background-size:
+                40px 40px,
+                40px 40px,
+                100% 100%,
+                100% 100%;
+            background-attachment: fixed;
+            color: var(--chalk);
+            font-family: 'Amiri', serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ============================================================
+           STICKY SELECT BAR
+           ============================================================ */
+        .select-bar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: clamp(10px, 2vw, 16px) clamp(14px, 3vw, 20px);
+            background-color: rgba(10, 15, 30, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 2px solid var(--cyan);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        #section-select {
+            width: 100%;
+            max-width: 560px;
+            padding: clamp(12px, 2.4vw, 16px) clamp(16px, 3vw, 22px);
+            font-family: 'Cairo', 'Aref Ruqaa', serif;
+            font-size: clamp(1rem, 3.2vw, 1.2rem);
+            font-weight: 700;
+            color: var(--chalk);
+            background-color: var(--bg-alt);
+            background-image: linear-gradient(135deg, rgba(0, 217, 255, 0.06), rgba(255, 200, 87, 0.06));
+            border: 2px solid var(--cyan);
+            border-radius: var(--radius);
+            cursor: pointer;
+            outline: none;
+            box-shadow:
+                0 0 14px rgba(0, 217, 255, 0.35),
+                inset 0 0 12px rgba(0, 217, 255, 0.08);
+            transition: box-shadow 0.25s, border-color 0.25s, transform 0.25s;
+            text-align: center;
+            text-align-last: center;
+            appearance: none;
+            -webkit-appearance: none;
+            /* Custom arrow via background */
+            background-image:
+                linear-gradient(135deg, rgba(0, 217, 255, 0.06), rgba(255, 200, 87, 0.06)),
+                url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2300d9ff' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+            background-repeat: no-repeat, no-repeat;
+            background-position: center, left clamp(12px, 2vw, 18px) center;
+            background-size: 100% 100%, 18px 18px;
+            padding-left: clamp(38px, 8vw, 50px);
+            padding-right: clamp(16px, 3vw, 22px);
+        }
+
+        #section-select:hover,
+        #section-select:focus-visible {
+            border-color: var(--gold);
+            box-shadow:
+                0 0 22px rgba(255, 200, 87, 0.55),
+                inset 0 0 16px rgba(255, 200, 87, 0.12);
+            outline: none;
+        }
+
+        #section-select option {
+            background-color: var(--bg-alt);
+            color: var(--chalk);
+            padding: 10px;
+            font-size: 1rem;
+        }
+
+        /* ============================================================
+           PAGE HEADER
+           ============================================================ */
+        .page-header {
+            text-align: center;
+            padding: clamp(24px, 5vw, 44px) clamp(14px, 4vw, 24px) clamp(16px, 3vw, 24px);
+        }
+
+        .page-header h1 {
+            font-family: 'Aref Ruqaa', 'Cairo', serif;
+            font-size: clamp(1.5rem, 5.5vw, 2.4rem);
+            font-weight: 900;
+            color: var(--chalk);
+            text-shadow:
+                0 0 10px rgba(0, 217, 255, 0.55),
+                0 0 24px rgba(0, 217, 255, 0.35);
+            line-height: 1.3;
+            margin: 0;
+            max-width: 900px;
+            margin-inline: auto;
+            word-break: break-word;
+        }
+
+        .page-header h1 .accent {
+            color: var(--gold);
+            text-shadow: var(--glow-gold);
+        }
+
+        /* ============================================================
+           SECTIONS
+           ============================================================ */
+        main {
+            flex: 1 0 auto;
+            width: 100%;
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 clamp(14px, 4vw, 24px) clamp(40px, 8vw, 70px);
+        }
+
+        section {
+            display: none;
+            padding: clamp(20px, 4vw, 34px) clamp(16px, 3.5vw, 30px);
+            margin-top: clamp(8px, 2vw, 16px);
+            background-color: rgba(15, 26, 46, 0.65);
+            border: 2px solid var(--cyan);
+            border-radius: var(--radius);
+            box-shadow:
+                0 0 20px rgba(0, 217, 255, 0.25),
+                inset 0 0 30px rgba(0, 217, 255, 0.04);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            animation: section-in 0.35s ease-out;
+        }
+
+        section.active {
+            display: block;
+        }
+
+        @keyframes section-in {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        section h2 {
+            font-family: 'Aref Ruqaa', 'Cairo', serif;
+            font-size: clamp(1.4rem, 4.5vw, 2rem);
+            font-weight: 900;
+            color: var(--gold);
+            text-align: center;
+            text-shadow: var(--glow-gold);
+            margin-bottom: clamp(16px, 3vw, 26px);
+            padding-bottom: clamp(10px, 2vw, 14px);
+            border-bottom: 2px solid rgba(255, 200, 87, 0.25);
+            line-height: 1.3;
+            word-break: break-word;
+        }
+
+        /* Welcome section special styling */
+        section#section0 {
+            text-align: center;
+        }
+
+        section#section0 h1 {
+            font-family: 'Aref Ruqaa', 'Cairo', serif;
+            font-size: clamp(1.15rem, 4vw, 1.7rem);
+            font-weight: 700;
+            color: var(--chalk);
+            margin-bottom: clamp(12px, 2.5vw, 20px);
+            line-height: 1.45;
+            text-shadow: 0 0 8px rgba(0, 217, 255, 0.4);
+            word-break: break-word;
+        }
+
+        section#section0 h2 {
+            border-bottom: none;
+            color: var(--cyan);
+            font-size: clamp(1rem, 3.4vw, 1.35rem);
+            font-weight: 700;
+            text-shadow: var(--glow-cyan);
+            margin-bottom: 0;
+        }
+
+        /* ============================================================
+           BUTTONS (subject links)
+           ============================================================ */
+        .button {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            max-width: 620px;
+            margin: clamp(10px, 2vw, 14px) auto;
+            padding: clamp(14px, 3vw, 18px) clamp(16px, 4vw, 24px);
+            font-family: 'Cairo', 'Aref Ruqaa', serif;
+            font-size: clamp(1rem, 3.4vw, 1.15rem);
+            font-weight: 800;
+            color: var(--bg);
+            background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan-deep) 100%);
+            border: 2px solid var(--cyan);
+            border-radius: var(--radius);
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            overflow: hidden;
+            box-shadow:
+                0 0 10px rgba(0, 217, 255, 0.35),
+                inset 0 0 14px rgba(255, 255, 255, 0.06);
+            transition:
+                transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 0.22s,
+                border-color 0.22s,
+                color 0.22s;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            word-break: break-word;
+            line-height: 1.35;
+        }
+
+        /* Shine sweep */
+        .button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.55),
+                transparent
+            );
+            transition: left 0.65s ease;
+            pointer-events: none;
+        }
+
+        .button:hover::before,
+        .button:focus-visible::before {
+            left: 120%;
+        }
+
+        .button:hover,
+        .button:focus-visible {
+            transform: translateY(-3px);
+            border-color: var(--gold);
+            color: #051020;
+            box-shadow:
+                0 0 22px rgba(0, 217, 255, 0.85),
+                inset 0 0 20px rgba(255, 255, 255, 0.12);
+            outline: none;
+        }
+
+        .button:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        .button:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 3px;
+        }
+
+        /* Small icon prefix (arrow) */
+        .button::after {
+            content: "↗";
+            font-size: 1.1em;
+            opacity: 0.7;
+            transition: transform 0.25s, opacity 0.25s;
+            flex-shrink: 0;
+        }
+
+        .button:hover::after,
+        .button:focus-visible::after {
+            transform: translate(2px, -2px);
+            opacity: 1;
+        }
+
+        /* ============================================================
+           FOOTER NOTE
+           ============================================================ */
+        .footer-note {
+            flex-shrink: 0;
+            text-align: center;
+            padding: clamp(14px, 3vw, 20px) 16px calc(clamp(14px, 3vw, 20px) + env(safe-area-inset-bottom));
+            background-color: #0a0f1e;
+            border-top: 2px solid var(--cyan);
+            color: var(--muted);
+            font-size: clamp(0.8rem, 2.5vw, 0.95rem);
+            font-family: 'Amiri', serif;
+        }
+
+        .footer-note a {
+            color: var(--gold);
+            text-decoration: none;
+            transition: color 0.25s;
+        }
+
+        .footer-note a:hover {
+            color: var(--cyan);
+            text-decoration: underline;
+        }
+
+        /* ============================================================
+           RESPONSIVE FINE-TUNING
+           ============================================================ */
+        @media (max-width: 520px) {
+            .button {
+                max-width: 100%;
+                font-size: clamp(0.95rem, 3.6vw, 1.1rem);
+            }
+
+            .button::after {
+                font-size: 1em;
+            }
+        }
+
+        /* Landscape phones — compress vertical spacing */
+        @media (max-height: 600px) and (orientation: landscape) {
+            .page-header {
+                padding: 14px 16px 8px;
+            }
+
+            .page-header h1 {
+                font-size: clamp(1.1rem, 3vw, 1.5rem);
+            }
+
+            section {
+                padding: 14px 18px;
+            }
+
+            .button {
+                padding: 10px 16px;
+                font-size: clamp(0.9rem, 2.4vw, 1rem);
+                margin: 6px auto;
+            }
+        }
+
+        /* ============================================================
+           REDUCED MOTION
+           ============================================================ */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+
+        /* ============================================================
+           CUSTOM SCROLLBAR (WebKit)
+           ============================================================ */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-alt);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--cyan), var(--cyan-deep));
+            border-radius: 5px;
+            border: 2px solid var(--bg-alt);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ================= STICKY SELECT BAR ================= -->
+    <div class="select-bar">
+        <select id="section-select" aria-label="اختر المادة">
+            <option value="section0">-- اختر مادة --</option>
+            <option value="section1">الاستاتيكا</option>
+            <option value="section2">الكيمياء</option>
+            <option value="section3">العربي</option>
+            <option value="section4">الهندسة</option>
+            <option value="section5">الجبر</option>
+            <option value="section6">حسبان (1)</option>
+            <option value="section7">خواص مادة وحرارة</option>
+            <option value="section8">علم نفس النمو</option>
+            <option value="section9">علوم الحاسب</option>
+            <option value="section10">قضايا مجتمعية</option>
+            <option value="section11">منظمات دولية</option>
+            <option value="section12">مهنة تعليم</option>
+        </select>
+    </div>
+
+    <!-- ================= PAGE HEADER ================= -->
+    <header class="page-header">
+        <h1>
+            أنت الآن في قسم مواد <span class="accent">الترم الأول</span>
+            في الفرقة الأولى رياضيات مميز
+        </h1>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main>
+
+        <!-- Welcome / default section -->
+        <section id="section0" class="active">
+            <h1>
+                اختر المادة التي تريد عرض البيانات المرفوعة<br>
+                سيتم عرض فوراً جميع البيانات الخاصة بتلك المادة
+            </h1>
+            <h2>ونتمنى أن تكون المنصة وفّرت بيئة تحفيزية وسهلة للدراسة</h2>
+        </section>
+
+        <!-- الاستاتيكا -->
+        <section id="section1">
+            <h2>الاستاتيكا</h2>
+            <a href="https://drive.google.com/file/d/1EdY3HZw4HVj9Tma2oSJkB7XFbYsdsTny/view?usp=drivesdk" class="button" target="_blank" rel="noopener">امتحان الاستاتيكا 22</a>
+            <a href="https://drive.google.com/file/d/1D3QDLZLUIxejgf4kK_c48Xmg_MSL9y13/view" class="button" target="_blank" rel="noopener">امتحان استاتيكا العام الماضي</a>
+            <a href="https://drive.google.com/file/d/1Crf-Li5Ykdt6YKPURoSxUbDbJp4J_cFk/view" class="button" target="_blank" rel="noopener">كتاب الاستاتيكا</a>
+            <a href="https://drive.google.com/file/d/1El3xf1euuCQRbW-MLWGRXtLtKEk0sucB/view" class="button" target="_blank" rel="noopener">محاضرات الاستاتيكا</a>
+        </section>
+
+        <!-- الكيمياء -->
+        <section id="section2">
+            <h2>الكيمياء</h2>
+            <a href="https://drive.google.com/file/d/1SADOZpn26ghYcJABB8E5iZ75gauxruN7/view?usp=drive_link" class="button" target="_blank" rel="noopener">امتحان الكيمياء 2024</a>
+            <a href="https://drive.google.com/file/d/1WyLVngO8WB4NkFWobdTQMXEK2AAHhDDQ/view?usp=drive_link" class="button" target="_blank" rel="noopener">امتحان 2024 محلول ChatGPT</a>
+            <a href="https://drive.google.com/file/d/1S2DSnhRaYI-d5QXhEAmZh6v6nNGbv7-1/view?usp=drive_link" class="button" target="_blank" rel="noopener">أهم أجزاء الكيمياء العامة</a>
+            <a href="https://drive.google.com/file/d/1Rs9DxrC4Kh1VFbx5iE_xH2J0tvZG3uQw/view?usp=drive_link" class="button" target="_blank" rel="noopener">كتاب الكيمياء العامة</a>
+            <a href="https://drive.google.com/file/d/1RqwtESJZHzIP40bsvZEq6zyl0iepNzNU/view?usp=drive_link" class="button" target="_blank" rel="noopener">كتاب الكيمياء العضوية</a>
+            <a href="https://drive.google.com/file/d/1WK8z4ZnUqfiigB0QCEVd_3CamI5S1fzj/view?usp=drive_link" class="button" target="_blank" rel="noopener">كتاب الكيمياء الفيزيائية</a>
+            <a href="https://drive.google.com/file/d/1S7LOGq1o2OCt7if2k6F6GR6an1XNRI5F/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات الكيمياء العضوية</a>
+            <a href="https://drive.google.com/file/d/1S2NII0VpntlrvqKrkkjSTo8BpQ4Oq7Is/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات الكيمياء الفيزيائية</a>
+        </section>
+
+        <!-- العربي -->
+        <section id="section3">
+            <h2>اللغة العربية</h2>
+            <a href="https://drive.google.com/file/d/1hsEqwZ92JoLfP7vwBZwIDkO4ARl9MMNQ/view?usp=drive_link" class="button" target="_blank" rel="noopener">تكليف اللغة العربية</a>
+            <a href="https://drive.google.com/file/d/1h66jkQCjq78Dp_IHsXzY-3mzOOzcvtqX/view?usp=drive_link" class="button" target="_blank" rel="noopener">كتاب اللغة العربية</a>
+            <a href="https://drive.google.com/file/d/1gw4qclakc3JjjpVOrh7-veddzJ_nslX7/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات اللغة العربية</a>
+            <a href="https://drive.google.com/file/d/1mEvR02q6_Ui0g1_NFK-I-ms_H1KWMg5m/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات اللغة العربية 2</a>
+            <a href="https://drive.google.com/file/d/1lpG9KPjN3GgH_5Ux6dkVoHBQs1iOQqG5/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة حل عربي — مكتبة الماسة</a>
+            <a href="https://drive.google.com/file/d/1loEhiw_bnS6Rt4FKzhe6xukPRXagwYEi/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة شرح عربي — مكتبة الماسة</a>
+            <a href="https://drive.google.com/file/d/1gwi99VulVhsuj3-vkTkAw16KRgz2L8eP/view?usp=drive_link" class="button" target="_blank" rel="noopener">المحاضرة السادسة</a>
+        </section>
+
+        <!-- الهندسة -->
+        <section id="section4">
+            <h2>الهندسة</h2>
+            <a href="https://drive.google.com/file/d/1VaNRCz0EDu7vfLNfy5uHFNbg8mtW0Oic/view?usp=drive_link" class="button" target="_blank" rel="noopener">إثباتات هندسة</a>
+            <a href="https://drive.google.com/file/d/1V-yMhyp9pX5h39Ml3b5ls--u7HJlWs3x/view?usp=drive_link" class="button" target="_blank" rel="noopener">إثباتات هندسة (٢)</a>
+            <a href="https://drive.google.com/file/d/1VQYu-8wZoX2iJJ2848_K0MiblFfmjv8A/view?usp=drive_link" class="button" target="_blank" rel="noopener">آخر محاضرة هندسة</a>
+            <a href="https://drive.google.com/file/d/1VpY7oPXYVgt-thXHlh0IzpM7q3klNePg/view?usp=drive_link" class="button" target="_blank" rel="noopener">أسئلة تكليف الهندسة</a>
+            <a href="https://drive.google.com/file/d/1W53Td33ieEAab5mQM42wvGH3YaDJYDcM/view?usp=drive_link" class="button" target="_blank" rel="noopener">امتحان هندسة 2024 بالعربي</a>
+            <a href="https://drive.google.com/file/d/1_kfChfzO_cbW48hBrpbMVF2n7IN5MZuU/view?usp=drive_link" class="button" target="_blank" rel="noopener">امتحان هندسة 2024 د/ عبير</a>
+            <a href="https://drive.google.com/file/d/1VscLXTUspkhPwphgRbiDfHMLKHAqhb9M/view?usp=drive_link" class="button" target="_blank" rel="noopener">حل تكليف الهندسة زوجي</a>
+            <a href="https://drive.google.com/file/d/1Vpf7RmGs5edotIiMzv_haRoc1iq8iZOE/view?usp=drive_link" class="button" target="_blank" rel="noopener">حل تكليف الهندسة فردي</a>
+            <a href="https://drive.google.com/file/d/1V0mb0Y5RFUYmBL0R0MFXG-CcFwWHRCgF/view?usp=drive_link" class="button" target="_blank" rel="noopener">كتاب الهندسة</a>
+            <a href="https://drive.google.com/file/d/1VGUXqPNv5nyUws5qTwlVbR0Go4q3_Mc4/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات الهندسة</a>
+            <a href="https://drive.google.com/file/d/1VepAT24NhTuuocNyGyBCIsNriBIcS7l1/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات الهندسة 2</a>
+            <a href="https://drive.google.com/file/d/1V1DsLhSfHoE6utTVG6mJffCFHXBD2LmX/view?usp=drive_link" class="button" target="_blank" rel="noopener">مذكرة Straight Line</a>
+            <a href="https://drive.google.com/file/d/1ZnR9IRdHyUhwrjnq1NeT9XBxBHWZIUJe/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة الهندسة — مكتبة الماسة</a>
+        </section>
+
+        <!-- الجبر -->
+        <section id="section5">
+            <h2>الجبر</h2>
+            <a href="https://drive.google.com/file/d/1O4G8giPHDwJRyWTweCd9KhO7qECb7mC_/view?usp=drive_link" class="button" target="_blank" rel="noopener">امتحان جبر 2024 د/ ناهد</a>
+            <a href="https://drive.google.com/file/d/1OJB6NyMxqdtX0aF0U0wQ8g31DaTjY7Tr/view?usp=drive_link" class="button" target="_blank" rel="noopener">جبر كامل فرقة أولى</a>
+            <a href="https://drive.google.com/file/d/1NcnMpjkGAcvU_SGQ8SLa1wQCW7UwFsZN/view?usp=drive_link" class="button" target="_blank" rel="noopener">كتاب الجبر</a>
+            <a href="https://drive.google.com/file/d/1OGMVm7hEZZNfSIa2_bmeVhuanRw41NSQ/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات الجبر</a>
+            <a href="https://drive.google.com/file/d/1PwVF2TvjDxIP1VaFr1WdacLlXh5Vrt71/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة جبر — مكتبة الماسة</a>
+            <a href="https://drive.google.com/file/d/1NieTVVc9vjfoE6rNrEzNeekrAHgM83Va/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة Binomial Theorem</a>
+            <a href="https://drive.google.com/file/d/1NegElkKKlmpX8bIah9u-Iy52pktiiF3e/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة Mathematical Induction</a>
+            <a href="https://drive.google.com/file/d/1NiYUrM8LAg8MgslghWU5WhjwImE5uw7P/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة Partial Fraction</a>
+        </section>
+
+        <!-- حسبان 1 -->
+        <section id="section6">
+            <h2>حسبان 1</h2>
+            <a href="https://drive.google.com/file/d/1BP09obZg9TmmxtVE5kaaIoYarwefGIgS/view?usp=drive_link" class="button" target="_blank" rel="noopener">امتحان العام الماضي محلول</a>
+            <a href="https://drive.google.com/file/d/17L1jYTXIOXgwLbP_QxPJPofcQ0yrG66n/view?usp=drive_link" class="button" target="_blank" rel="noopener">امتحان حسبان (1) 24 + حل أجزاء منه</a>
+            <a href="https://drive.google.com/file/d/177YXvK6Y-aVrUBaOiVu3f6_fu1bt0X-W/view?usp=drive_link" class="button" target="_blank" rel="noopener">كتاب حسبان 1</a>
+            <a href="https://drive.google.com/file/d/19D0k5bv2C9MMoo4MPn0CDA-K3Nq9TeZV/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات حسبان 1</a>
+            <a href="https://drive.google.com/file/d/1738R58D0-ehDKh266bQQEl5XDmqFYyF9/view?usp=drive_link" class="button" target="_blank" rel="noopener">مذكرة تفاضل شابتر (1)(2)(3)</a>
+            <a href="https://drive.google.com/file/d/16xsSKPyAwb0--Ttg4FA2aTbCloyIM8jx/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملخص قوانين التفاضل</a>
+            <a href="https://drive.google.com/file/d/18teV46zy3wxp9g9y9VYyo6e4vqRh2S-d/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة حسبان 1 — مكتبة الماسة</a>
+            <a href="https://drive.google.com/file/d/1AgwqRbpHUDLH4uUPOWqAFuDsvEWLTV2F/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة حسبان 1 — الجزء الثاني</a>
+        </section>
+
+        <!-- خواص مادة وحرارة -->
+        <section id="section7">
+            <h2>خواص مادة وحرارة</h2>
+            <a href="https://drive.google.com/file/d/13qixMngn8Pyachfahs_vwjDECPFann6K/view?usp=drive_link" class="button" target="_blank" rel="noopener">خواص حرارة</a>
+            <a href="https://drive.google.com/file/d/13qCu8KoN-FJsMjNFtIJUqkG8yER8rYSs/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات خواص مادة</a>
+            <a href="https://drive.google.com/file/d/14481Ph0JVEX0GpRA5FWMhsyXA5eZPWWy/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملخص قوانين الحرارة</a>
+            <a href="https://drive.google.com/file/d/14AIFpn0Hl0hNJ80SfuhX_1LG4UVHaMS_/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملخص قوانين خواص المادة</a>
+            <a href="https://drive.google.com/file/d/13p6f3tEj9MZ9UkmMxPal41Zp0BZBYWSK/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة خواص الحرارة</a>
+            <a href="https://drive.google.com/file/d/13h2bnWdHnXR1bGwlrslKBRW1ZVoVPJC4/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة خواص المادة</a>
+        </section>
+
+        <!-- علم نفس النمو -->
+        <section id="section8">
+            <h2>علم نفس النمو</h2>
+            <a href="https://drive.google.com/file/d/1BXVZ4ZFb8dy86kTranWzT0KIeNEXfrUL/view?usp=drive_link" class="button" target="_blank" rel="noopener">امتحان علم نفس النمو العام الماضي</a>
+            <a href="https://drive.google.com/file/d/1BqnwNIAEBB57KvckJIwsBDJf7n9b8g92/view?usp=drive_link" class="button" target="_blank" rel="noopener">كتاب علم نفس النمو</a>
+            <a href="https://drive.google.com/file/d/1EoiVVkDI3xN3U7J6etB2Lnz-CWU1yOyL/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات علم النفس</a>
+            <a href="https://drive.google.com/file/d/1DN3c4nv9YMjMlkH61SfcBv0Auxd1nQnu/view?usp=drive_link" class="button" target="_blank" rel="noopener">مذكرة حل أسئلة اختياري — مكتبة الماسة</a>
+            <a href="https://drive.google.com/file/d/1BUdC3trxm-xOVW75_awspRhWLJ0gJMvP/view?usp=drive_link" class="button" target="_blank" rel="noopener">مذكرة شرح علم نفس النمو — مكتبة الماسة</a>
+        </section>
+
+        <!-- علوم الحاسب -->
+        <section id="section9">
+            <h2>علوم الحاسب</h2>
+            <a href="https://drive.google.com/file/d/1edKucnS3ujD_cZ-onH9v4pWxr-o8RBDB/view?usp=drive_link" class="button" target="_blank" rel="noopener">امتحان علوم حاسب 2024</a>
+            <a href="https://drive.google.com/file/d/1drNiyvXRi4vLkalpNI9I1c9TZFYxgRb8/view?usp=drive_link" class="button" target="_blank" rel="noopener">كتاب علوم الحاسب 2024</a>
+            <a href="https://drive.google.com/file/d/1dt_DlgeMq6VponKBfTkNuPipg06dyRk3/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملخص الفصل (1)(2)(3)</a>
+            <a href="https://drive.google.com/file/d/1dyY5nCNSOYwSjV5dK9fgSxNb7NkL1a8G/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملخص الفصل (4)(5)</a>
+            <a href="https://drive.google.com/file/d/1ilIetUrp0uJV-7TpN4QRbpbUeoQxVac3/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملخص الفصل (6)</a>
+            <a href="https://drive.google.com/file/d/1ilxM1NvWj8e5xQvbchMNCJBcO59w75oz/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملخص الفصل (7)</a>
+        </section>
+
+        <!-- قضايا مجتمعية -->
+        <section id="section10">
+            <h2>قضايا مجتمعية</h2>
+            <a href="https://drive.google.com/file/d/1ezZSyW0XYCtGTDEZdBCrlmTePDQItFs0/view?usp=drive_link" class="button" target="_blank" rel="noopener">قضية المواطنة</a>
+            <a href="https://drive.google.com/file/d/1fSQut9D6jbCsIHqRprFAm402bK8WfBSv/view?usp=drive_link" class="button" target="_blank" rel="noopener">امتحان قضايا مجتمعية 2024</a>
+            <a href="https://drive.google.com/file/d/1f6qN9UoGCsK22G-mUY1noS00ABFDsO-e/view?usp=drive_link" class="button" target="_blank" rel="noopener">قضية التسامح</a>
+            <a href="https://drive.google.com/file/d/1f0-X89cLUBa_gFxlvU7-7ebIpEkvx-4Z/view?usp=drive_link" class="button" target="_blank" rel="noopener">قضية السكان</a>
+            <a href="https://drive.google.com/file/d/1fDzGhEPhUrfHmZ1h6M2YysurncUi1vwR/view?usp=drive_link" class="button" target="_blank" rel="noopener">قضية العنف الأسري والعنف ضد المرأة</a>
+            <a href="https://drive.google.com/file/d/1f0sw09VS9aIrsLIxftbBRJGOrMbtjaMB/view?usp=drive_link" class="button" target="_blank" rel="noopener">قضية العولمة</a>
+            <a href="https://drive.google.com/file/d/1ey6iB1TvbQob0sGo04R9rsah_feFZiR4/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات القضايا المجتمعية</a>
+            <a href="https://drive.google.com/file/d/1h_JsCwIarum2zyCYWKvWpXk-sXSRDULr/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة شرح قضايا مجتمعية — مكتبة الماسة</a>
+            <a href="https://drive.google.com/file/d/1g5bTwinvMPmrTqHXAHYetrTIwk9ScxSU/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة حل قضايا مجتمعية — مكتبة الماسة</a>
+        </section>
+
+        <!-- منظمات دولية -->
+        <section id="section11">
+            <h2>منظمات دولية وقضايا التعليم</h2>
+            <a href="https://drive.google.com/file/d/1XW8NhnkDCK1fnzDEDZKWnS8m9lDiaau8/view?usp=drive_link" class="button" target="_blank" rel="noopener">كتاب منظمات دولية وقضايا التعليم</a>
+            <a href="https://drive.google.com/file/d/1Y3QoQw_Iu_GEBKLgA85UFvJGsXiydsMw/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات منظمات دولية وقضايا التعليم</a>
+            <a href="https://drive.google.com/file/d/1_9SF1O6IRFce1p_BVFXbhmVWlBzRYB0w/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة منظمات دولية — حل</a>
+            <a href="https://drive.google.com/file/d/1ZvOdBmicv2F0tegcSIy6O9iIsSMFCDAR/view?usp=drive_link" class="button" target="_blank" rel="noopener">ملزمة منظمات دولية — شرح</a>
+        </section>
+
+        <!-- مهنة تعليم -->
+        <section id="section12">
+            <h2>مهنة تعليم</h2>
+            <a href="https://drive.google.com/file/d/1LVyteLg0uHHAxgdUUY4haDu051VuVBEK/view?usp=drive_link" class="button" target="_blank" rel="noopener">امتحان مهنة تعليم 2024</a>
+            <a href="https://drive.google.com/file/d/1LYC2Y1m_TPkj1uVCu_5tXtGNk2btLWx9/view?usp=drive_link" class="button" target="_blank" rel="noopener">كتاب مهنة تعليم</a>
+            <a href="https://drive.google.com/file/d/1LXKhrbgY6M379H6LTgONRni3xoPURTVk/view?usp=drive_link" class="button" target="_blank" rel="noopener">محاضرات مهنة تعليم</a>
+            <a href="https://drive.google.com/file/d/1O_T6WgN7T327fxxB-r7DKJcrEjsY6XRT/view?usp=drive_link" class="button" target="_blank" rel="noopener">مذكرة حل مهنة تعليم — مكتبة الماسة</a>
+            <a href="https://drive.google.com/file/d/1LycPaCQi0Vo1KXpkARt4_WZZm6Lu9Tcv/view?usp=drive_link" class="button" target="_blank" rel="noopener">مذكرة شرح مهنة تعليم — مكتبة الماسة</a>
+        </section>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="footer-note">
+        &copy; 2025 Maths 2025 — <a href="../credit.html">Lotfy Waheed</a>
+    </footer>
+
+    <!-- ================= SCRIPT ================= -->
+    <script>
+        (function () {
+            const select   = document.getElementById('section-select');
+            const sections = document.querySelectorAll('section');
+
+            if (!select) return;
+
+            select.addEventListener('change', function () {
+                const targetId = this.value;
+                const target   = document.getElementById(targetId);
+
+                if (!target) return;
+
+                // Hide all sections
+                sections.forEach(s => s.classList.remove('active'));
+
+                // Show the selected one
+                target.classList.add('active');
+
+                // Smooth scroll to top of the section (below the sticky bar)
+                const bar = document.querySelector('.select-bar');
+                const barHeight = bar ? bar.offsetHeight : 0;
+                const y = target.getBoundingClientRect().top + window.pageYOffset - barHeight - 12;
+
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            });
+        })();
+    </script>
+
+</body>
+</html>
